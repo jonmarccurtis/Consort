@@ -1,0 +1,347 @@
+/*
+The X Theme recommends putting these settings in their style.css file.
+In a way, this is correct.  That CSS file is loaded after both the parent
+CSS file, and the Stack (Integrity) CSS - so it is in the best position
+to not need any !important designations.
+
+However, it does not get loaded on the iPhone!
+LATER NOTE:  This may have been a Chrome Browser Cache failure.  Had a similar
+problem with another CSS.  Chrome did not load it properly until its entire
+cache was cleared, including cookies.  However, since this CSS is currently
+working with its loading method - I won't go back now, unless I find any
+problems with the Stack CSS interference.
+
+This file gets loaded after the parent CSS, but before the Stack CSS,
+and it is always loaded, even on the iPhone.
+*/
+
+body {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+}
+
+/* Generic classes */
+.cc-georgia {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+/* News and Events page */
+.display-posts-listing {
+    padding-left: 25px;
+}
+.cc-event-list {
+    padding-left: 25px;
+}
+div.cc-event-category {
+    display:inline-block;
+    color:white;
+    padding-top:2px;
+    line-height:1.2;
+    width:60px;
+    height:20px;
+    overflow:hidden;
+    text-align:center
+}
+span.cc-news-category {
+    display: inline-block;
+    color:white;
+    padding: 2px 5px;
+    line-height:1.2;
+    font-family: "Lato", sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    width:60px;
+    height:20px;
+    text-align: center;
+
+}
+.entry-thumb img {
+    min-width: unset!important;
+}
+.cc-ical-link {
+    padding: 0 3px;
+    border: 1px solid #880000;
+    border-radius: 3px;
+    font-size: 12px;
+}
+.cc-ical-link:hover {
+    color: white;
+    background-color: #880000;
+}
+.cc-event-list .cc-ical-link {
+    font-size: 9px;
+}
+
+
+/* Show topbar only on home page */
+.x-topbar {
+    display:none;
+}
+.home .x-topbar {
+    display:block!important;
+}
+.x-logobar {
+    border-bottom: none!important;
+}
+
+/* reduce size of social media icons */
+.x-topbar .x-social-global a {
+    font-size: 16px!important;
+}
+
+/* Front-end profile form by s2Member - reduce width of the inputs */
+form#ws-plugin--s2member-profile table { max-width:400px !important }
+form#ws-plugin--s2member-profile label.ws-plugin--s2member-custom-reg-field-op-l {
+    opacity: 1 !important;
+}
+
+/* Boxes with red border */
+.support-box {
+    margin: 10px;
+    padding: 10px;
+    border: 2px solid #880000;
+    border-radius: 10px;
+    position: relative;
+}
+/* Place an additional div inside support-box, before the outer content */
+div.support-box-disabled {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1000; /* stay under sticky menus */
+    background-color: rgba(100, 100, 100, 0.5);
+    border-radius: 10px;
+    top: 0;
+    left: 0;
+}
+div.support-box-disabled::after {
+    position: absolute;
+    top: 100px;
+    left: 25px;
+    color: rgba(240,240,240,0.4);
+    font-size: 90px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    transform: rotate(-30deg);
+    content: 'Disabled';
+}
+
+/* Refreshment signup page */
+.cu-form-label {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+.cu-form-value {
+    color: #0A246A;
+}
+
+/***** POST ATTACHMENTS - AUDIO/VIDEO MEDIA *****/
+
+/* Disable Post Meta */
+.type-attachment .p-meta {
+    display: none !important;
+}
+
+/***** SEASON OF THE DAY POSTS *****/
+
+/* Disable Post Meta */
+.category-season-of-the-day .p-meta {
+    display: none !important;
+}
+
+/***** PAST CONCERT / SEASONS PAGES *****/
+
+/* Disable Post Meta */
+.category-past-concerts .p-meta {
+    display: none !important;
+}
+.category-past-concerts table {
+    line-height: normal;
+    margin-top: 10px;
+    border-bottom: none;
+}
+.category-past-concerts tr td {
+    text-align: left;
+    font-size: 14px;
+    padding: 1px 0 0 0;
+    border-top: none;
+}
+.category-past-concerts tr td a {
+    padding: 1px 5px 0px 5px;
+}
+.category-past-concerts th {
+    text-align: center;
+}
+/* Past Concerts - Program Notes: classes from old website */
+.banner {
+    color: white;
+    background-color: #880000;
+}
+.arial12 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+}
+.arial14 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-style: normal;
+}
+.title16 {
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: normal
+}
+.title18 {
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-size: 18px;
+    font-weight: normal;
+    line-height: 24px
+}
+.ALLCAPS {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: bold;
+    font-variant: small-caps;
+}
+.old-program {
+    width: 400px;
+    padding: 5px 5px 0 0;
+    vertical-align: top;
+}
+.pnotes {
+    padding: 0 20px;
+}
+.heading {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    padding-top: 25px;
+    text-align: center;
+}
+.songTitle {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    padding-top: 15px; /* was 25 without heading */
+    padding-bottom: 5px;
+}
+.section {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+}
+.lyrics {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-style: italic;
+    padding-bottom: 4px;
+}
+.translation {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    padding-bottom: 10px;
+}
+.textBy {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-weight: bold;
+    font-size: 13px;
+}
+.soloists {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 13px;
+    padding-bottom: 7px;
+}
+.composer {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    padding: 5px;
+    border: 1px solid black;
+    margin: 0;
+}
+
+/* Help page formmatting */
+div.help-subtitle {
+    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: italic;
+    font-weight: normal;
+}
+
+
+/* PlayList Download playlist title - more to right */
+.wp-playlist-item-title {
+    padding-left:25px
+}
+
+/* download link styles - move within playlist & to left of playlist title */
+.wpse-download {
+    margin-top: -22px;
+    padding-left:5px;
+    position: absolute;
+}
+
+/* Make Youtube Video/Playlist responsive */
+.video-responsive{
+    overflow:hidden;
+    padding-bottom:56.25%;
+    position:relative;
+    height:0;
+}
+.video-responsive iframe{
+    left:0;
+    top:0;
+    height:100%;
+    width:100%;
+    position:absolute;
+}
+
+
+/****** Show Video overlay ******/
+#video-overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.8);
+    z-index: 40000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#video-content {
+    position: relative;
+    width: 80%;
+    height: 80%;
+    color: white;
+}
+#video-content video {
+    width: 100%;
+}
+#video-close {
+    position: absolute;
+    top: 0px;
+    right: 4px;
+}
+#video-close:hover {
+    cursor: pointer;
+}
+
+
+/****** Email support ******/
+span.cc-send-adr {
+    color: #880000;
+}
+span.cc-send-adr:hover {
+    color: black;
+    cursor: pointer;
+}
+
+
+/****** Blog Navigation Links ******/
+.x-nav-articles {
+    width: 100% !important;
+    display: flex;
+    justify-content: space-between;
+}
