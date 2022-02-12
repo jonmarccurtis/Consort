@@ -75,7 +75,7 @@ class CuRehearsalNotes
         $this->table->set_init_sort(array('Song', 'msr'));
 
         $instr = <<<EOT
-[accordion][accordion_item title='Instructions']
+[accordion][accordion_item title='Filters and Sorting Help']
 <b>Filters</b> are entered in the second row, below the column headers<br>
 To remove older notes: enter the last date (m-d) you copied notes, in the Date column.<br>
 To view only your part's notes, enter your section letter(s) in the 'Section' column.<br>
