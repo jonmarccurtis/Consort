@@ -106,6 +106,10 @@ span.send-adr {
 .cu_caption ul {
     margin: 0px;
 }
+.cu_monospaced {
+    font-family: Andale Mono, monospace;
+    font-weight: bold;
+}
 
 /* provide horizontal scroll at bottom of page,
    restricted to only the following pages ...
@@ -275,6 +279,14 @@ table.absence th.primary, table.absence td.primary {
 }
 table.absence td.member {
     text-align: right;
+}
+
+/* For Rehearsal Notes */
+table.rntable th {
+    font-size: 16px;
+}
+table.rntable td {
+    font-size: 14px;
 }
 
 /* For Calendar Subscribe */

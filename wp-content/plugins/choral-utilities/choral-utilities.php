@@ -31,6 +31,7 @@ class ChoralUtilities {
         add_shortcode('cu_singer_roster', array($this, 'singer_roster'));
         add_shortcode('cu_pay_tuition', array($this, 'pay_tuition'));
         add_shortcode('cu_absence_table', array($this, 'absence_table'));
+        add_shortcode('cu_rehearsal_notes', array($this, 'rehearsal_notes'));
 
         // Seasonal Shortcodes
         add_shortcode('cu_concert_tickets', array($this, 'concert_tickets'));
@@ -136,6 +137,15 @@ class ChoralUtilities {
         require_once(plugin_dir_path(__FILE__).'/includes/frontend/absence_table.php');
         $at = new CuAbsenceTable();
         return $at->html();
+    }
+
+    /**
+     * Rehearsal notes
+     */
+    public function rehearsal_notes() {
+        require_once(plugin_dir_path(__FILE__).'/includes/frontend/rehearsal_notes.php');
+        $rn = new CuRehearsalNotes();
+        return $rn->html();
     }
 
     /********* SEASONAL SHORTCODES **********/

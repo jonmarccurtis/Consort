@@ -31,6 +31,7 @@ class CuTable
         $this->options['directions-left'] = '';
         $this->options['title'] = '';
         $this->options['table-layout'] = 'fixed';
+        $this->options['clear_empty_cells'] = true;
     }
 
     public function set_option($option, $setting)
@@ -274,7 +275,10 @@ class CuTable
                 $col = 0;
                 foreach ($row['data'] as $field => $value) {
                     $class = isset($row['class'][$field]) ? (' class="' . $row['class'][$field] . '"') : '';
-                    $text = !empty($value) ? $value : '';
+                    if ($this->options['clear_empty_cells'])
+                        $text = !empty($value) ? $value : '';
+                    else
+                        $text = $value;
                     $html .= '
                     <td data-column="' . $col++ . '" ' . $class . '>' . $text . '</td>';
                 }
@@ -308,11 +312,16 @@ class CuTable
         foreach ($this->columns as $id => $column) {
             $filters = isset($column['custom-filters']) ? $column['custom-filters'] : null;
             if ($filters !== null) {
-                $ts_filters .= $column['col_number'] . ': {';
-                foreach ($filters as $name => $fcn) {
-                    $ts_filters .= '"' . $name . '":cu_table.' . $fcn . ', ';
+                if (is_array($filters)) {
+                    $ts_filters .= $column['col_number'] . ': {';
+                    foreach ($filters as $name => $fcn) {
+                        $ts_filters .= '"' . $name . '":cu_table.' . $fcn . ', ';
+                    }
+                    $ts_filters .= '}, ';
+                } else {
+                    $ts_filters .= $column['col_number'] . ': ';
+                    $ts_filters .= 'cu_table.' . $filters . ', ';
                 }
-                $ts_filters .= '}, ';
             }
 
             $filter = isset($column['filter']) ? $column['filter'] : null;
