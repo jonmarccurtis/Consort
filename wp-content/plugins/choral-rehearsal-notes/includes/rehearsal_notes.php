@@ -69,7 +69,7 @@ class CrnRehearsalNotes
         $this->table->table_class('crntable');
 
         // Enable download to CSV
-        $this->table->set_option('download', 'Consort_Master_List');
+        $this->table->set_option('download', 'Consort_Rehearsal_Notes');
 
         // Initial sort order on page load
         $this->table->set_init_sort(array('Song', 'msr'));
