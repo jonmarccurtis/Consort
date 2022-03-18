@@ -19,31 +19,9 @@ class CuPayTuition
 
     public function html()
     {
-        $html = '
-            <div class="title18">Pay 2022 Tuition</div>
-            <hr>
-            <div class="ariel12it"><i>
-            You can make your 2022 Tuition payments online using a credit/debit card, Venmo, or a PayPal account.
-            Consort Chorale is charged an additional handling fee for all online payments including those from Venmo.  If
-            you pay by Venmo, it will say "No fees no matter how you pay", but that only means that you will not be charged
-            any additional fees at your end.  Consort is still charged fees for payments through Venmo.
-            This handling fee is automatically included in your payment, and can be seen in the dropdown below.</i><br><br>
-            You can avoid handling fees by paying by check to Consort Chorale, Inc. at this address:
-            </div>
-            <div style="line-height:1.2"><b>Consort Chorale, Inc.<br>
-                P.O. Box 9212<br>
-                San Rafael, CA 94912</b></div><br>
-            <div style="margin:0 20px">
-            If you have previously paid for one of the cancelled Workshops, you can donate its $50 payment by selecting one of the 
-            first three full payment options in the dropdown.  Or you can use that $50 payment toward your 2022 Tuition by selecting one of the last two "using Workshop credit"
-            options below.<br><br>
-            To pay online:<ol><li>Select which payment you are making from the dropdown.</li>
-            <li>Choose your method of payment by clicking one of the payment buttons</li></ol>
-                <br>';
-
         // Code from PayPal with minor modifications:  USD is changed to $, and "Pay Later" is disabled.
 
-        $html .= '
+        $html = '
         <div id="smart-button-container">
       <div style="text-align: center;">
         <div style="margin-bottom: 1.25rem;">

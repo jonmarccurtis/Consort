@@ -38,25 +38,6 @@
 }
 
 /* For Pay Tuition */
-table.tuition {
-    border-collapse: collapse;
-}
-table.tuition td {
-    border-top: none;
-}
-table.tuition td.spacer {
-    padding-top: 7px;
-}
-table.tuition td.sumline {
-    border-top: 1px solid black;
-}
-table.tuition td.radio span {
-    font-size: 11px;
-}
-table.tuition td.radio input[type="radio"] {
-    float: none;
-    margin-left: 10px;
-}
 
 /* For WS Lunch List */
 span.send-adr {
