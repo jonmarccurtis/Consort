@@ -19,131 +19,137 @@ class CuPayTuition
 
     public function html()
     {
-        $html = $this->getForm();
-        $html .= $this->getJS();
-        return $html;
-    }
-
-    private function getForm()
-    {
-    return '
-            <div class="title18">Pay 2020 Tuition</div>
+        $html = '
+            <div class="title18">Pay 2022 Tuition</div>
             <hr>
-            <div class="ariel12it">
-            You can make your 2020 Tuition payments online using a credit/debit card or a PayPal account.
-            Consort Chorale is charged an additional handling fee for online payments, which is shown
-            below and added to your payment.<br><br>
+            <div class="ariel12it"><i>
+            You can make your 2022 Tuition payments online using a credit/debit card, Venmo, or a PayPal account.
+            Consort Chorale is charged an additional handling fee for all online payments including those from Venmo.  If
+            you pay by Venmo, it will say "No fees no matter how you pay", but that only means that you will not be charged
+            any additional fees at your end.  Consort is still charged fees for payments through Venmo.
+            This handling fee is automatically included in your payment, and can be seen in the dropdown below.</i><br><br>
             You can avoid handling fees by paying by check to Consort Chorale, Inc. at this address:
             </div>
             <div style="line-height:1.2"><b>Consort Chorale, Inc.<br>
                 P.O. Box 9212<br>
                 San Rafael, CA 94912</b></div><br>
-            <div style="margin:0 20px">To pay online, fill in the form below, then click "Pay Now."<br>
-                <br>
-<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-<input type="hidden" name="cmd" value="_s-xclick">
-<input type="hidden" name="hosted_button_id" value="UQDXV2V4P6BSY">
-<table class="tuition" style="max-width:300px">
-    <tr>
-        <td colspan="3"><i>Select type of payment:</i></td>
-    </tr>
-    <tr>
-        <td><select id="paymentType">
-                <option value="275">Single payment, in full</option>
-                <option value="100">Deposit</option>
-                <option value="175">Remaining balance</option>
-            </select>
-        </td>
-        <td><span id="typeAmount" class="floatright"></span></td>
-    </tr>
-    <tr>
-        <td class="radio pay-tuition-radio"><i> for: </i>
-            <span>
-                <input type="radio" name="count" value="1" checked> One
-                <input type="radio" name="count" value="2"> Two
-            </span>
-        </td>
-    </tr>
-    <tr>
-        <td class="sumline">Total Tuition:</td>
-        <td class="sumline"><span id="totalTuition" class="floatright"></span></td>
-    </tr>
-    <tr>
-        <td class="spacer">Online handling fee:</td>
-        <td><span id="handling" class="floatright"></span></td>
-    </tr>
-    <tr>
-        <td class="sumline"><input type="hidden" name="on0" value="Payment options">Total Payment:</td>
-        <td class="sumline"><select style="display:none" id="ppTotal" name="os0">
-                <option value="Full Tuition (1)">$281.49</option>
-                <option value="Deposit (1)">$102.56</option>
-                <option value="Balance (1)">$179.24</option>
-                <option value="Full Tuition (2)">$562.68</option>
-                <option value="Deposit (2)">$204.81</option>
-                <option value="Balance (2)">$358.18</option>
-            </select>
-            <span id="total" class="floatright"></span>
-        </td>
-    </tr>
-</table>
-<input type="hidden" name="currency_code" value="USD">
-<input type="image" style="border:none; padding-top:10px" src="https://www.paypalobjects.com/en_US/i/btn/btn_paynowCC_LG.gif" name="submit" alt="PayPal - The safer, easier way to pay online!">
-<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-</form>';
+            <div style="margin:0 20px">
+            If you have previously paid for one of the cancelled Workshops, you can donate its $50 payment by selecting one of the 
+            first three full payment options in the dropdown.  Or you can use that $50 payment toward your 2022 Tuition by selecting one of the last two "using Workshop credit"
+            options below.<br><br>
+            To pay online:<ol><li>Select which payment you are making from the dropdown.</li>
+            <li>Choose your method of payment by clicking one of the payment buttons</li></ol>
+                <br>';
+
+        // Code from PayPal with minor modifications:  USD is changed to $, and "Pay Later" is disabled.
+
+        $html .= '
+        <div id="smart-button-container">
+      <div style="text-align: center;">
+        <div style="margin-bottom: 1.25rem;">
+          <p>2022 Tuition Payment</p>
+          <select id="item-options"><option value="Pay Full Tuition ($275)" price="281.08">Pay Full Tuition ($275) - $281.08</option><option value="Pay Deposit ($100)" price="102.53">Pay Deposit ($100) - $102.53</option><option value="Remaining Balance ($175)" price="179.05">Remaining Balance ($175) - $179.05</option><option value="Full Tuition, using Workshop credit ($225)" price="230.07">Full Tuition, using Workshop credit ($225) - $230.07</option><option value="Remaining Balance, using Workshop credit ($125)" price="128.04">Remaining Balance, using Workshop credit ($125) - $128.04</option></select>
+          <select style="visibility: hidden" id="quantitySelect"></select>
+        </div>
+      <div id="paypal-button-container"></div>
+      </div>
+    </div>
+    <script src="https://www.paypal.com/sdk/js?client-id=ASnRtUr46sPeQxzML49uOuX0d-vO1ug7kEBuIU3PCzm3-Jzu0LzlAxFfCkVYslws5_ggi7lWkm-01bZO&enable-funding=venmo&disable-funding=paylater&currency=USD" data-sdk-integration-source="button-factory"></script>
+    <script>
+      function initPayPalButton() {
+        var shipping = 0;
+        var itemOptions = document.querySelector("#smart-button-container #item-options");
+    var quantity = parseInt();
+    var quantitySelect = document.querySelector("#smart-button-container #quantitySelect");
+    if (!isNaN(quantity)) {
+      quantitySelect.style.visibility = "visible";
     }
-
-    private function getJS()
-    {
-        // NOTE: The sTotal payments are being calculated here - but they are fixed values.
-        // These values have to be already recorded at PayPal when the button is created,
-        // and they appear in the form above, which originated from PP, but modified
-        // to have the calculations revealed to the user.
-        // The actual PayPal dropdown is not exposed here.  Instead - the user sets it
-        // indirectly from the calculations.  To ensure that the correct amount is being
-        // sent to PayPal - the visible Total value shown to the user is gotten from the
-        // hidden PP dropdown's selected option.
-
-        $js = '
-        <script type="text/javascript"><!-- // --><![CDATA[';
-
-        $js .= '
-        function cu_pay($) {
-            $(document).ready(function () {
-                $("#paymentType").on("change", cu_pay.setPayment);
-                $("input[name=\'count\']").change(cu_pay.setPayment);
-                setPayment();
-            });
-            function setPayment() {
-                var item = $("#paymentType").val();
-                var count = $("input[name=\'count\']:checked").val();
-                var tuition = item * count;
-                var total = (tuition + 0.30) / 0.978;
-                var handling = total - tuition;
-                
-                $("#typeAmount").text(to$(item));
-                $("#totalTuition").text(to$(tuition));
-                $("#handling").text(to$(handling));
-                
-                var sTotal = to$(total);
-                $("#ppTotal option").each(function() {
-                    if ($(this).text() == sTotal) {
-                        $(this).prop("selected", true);
-                        return false;
-                    }
-                });
-                $("#total").text($("#ppTotal option:selected").text());
-            }
-            cu_pay.setPayment = setPayment;
-            
-            function to$(val) {
-                return "$" + parseFloat(val).toFixed(2);
-            }
+    var orderDescription = \'2022 Tuition Payment\';
+    if(orderDescription === \'\') {
+      orderDescription = \'Item\';
+    }
+    paypal.Buttons({
+      style: {
+        shape: \'pill\',
+        color: \'gold\',
+        layout: \'vertical\',
+        label: \'pay\',
+        
+      },
+      createOrder: function(data, actions) {
+        var selectedItemDescription = itemOptions.options[itemOptions.selectedIndex].value;
+        var selectedItemPrice = parseFloat(itemOptions.options[itemOptions.selectedIndex].getAttribute("price"));
+        var tax = (0 === 0 || false) ? 0 : (selectedItemPrice * (parseFloat(0)/100));
+        if(quantitySelect.options.length > 0) {
+          quantity = parseInt(quantitySelect.options[quantitySelect.selectedIndex].value);
+        } else {
+          quantity = 1;
         }
-        cu_pay(jQuery);
+
+        tax *= quantity;
+        tax = Math.round(tax * 100) / 100;
+        var priceTotal = quantity * selectedItemPrice + parseFloat(shipping) + tax;
+        priceTotal = Math.round(priceTotal * 100) / 100;
+        var itemTotalValue = Math.round((selectedItemPrice * quantity) * 100) / 100;
+
+        return actions.order.create({
+          purchase_units: [{
+            description: orderDescription,
+            amount: {
+              currency_code: \'USD\',
+              value: priceTotal,
+              breakdown: {
+                item_total: {
+                  currency_code: \'USD\',
+                  value: itemTotalValue,
+                },
+                shipping: {
+                  currency_code: \'USD\',
+                  value: shipping,
+                },
+                tax_total: {
+                  currency_code: \'USD\',
+                  value: tax,
+                }
+              }
+            },
+            items: [{
+              name: selectedItemDescription,
+              unit_amount: {
+                currency_code: \'USD\',
+                value: selectedItemPrice,
+              },
+              quantity: quantity
+            }]
+          }]
+        });
+      },
+      onApprove: function(data, actions) {
+        return actions.order.capture().then(function(orderData) {
+          
+          // Full available details
+          console.log(\'Capture result\', orderData, JSON.stringify(orderData, null, 2));
+
+          // Show a success message within this page, e.g.
+          const element = document.getElementById(\'paypal-button-container\');
+          element.innerHTML = \'\';
+          element.innerHTML = \'<h3>Thank you for your payment!</h3>\';
+
+          // Or go to another URL:  actions.redirect(\'thank_you.html\');
+
+        });
+      },
+      onError: function(err) {
+        console.log(err);
+      },
+    }).render(\'#paypal-button-container\');
+  }
+  initPayPalButton();
+    </script>
         ';
 
-        return $js.'
-        // ]]></script>';
+        return $html;
     }
+
 
 }
