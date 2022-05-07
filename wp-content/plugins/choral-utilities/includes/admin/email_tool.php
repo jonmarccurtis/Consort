@@ -49,7 +49,12 @@ class CuEmailTool
                     continue;
                 }
 
-                if ($group != 'Member') { // Singers
+                // Flag for Non-Singer in Administrative Notes.  This enables marking of
+                // Web Assist or Board members who are not participating in the current season.
+                $notes = get_user_field('s2member_notes', $id);
+                $non_singer = (strpos($notes, "Non-Singer") !== false);
+
+                if ($group != 'Member' && !$non_singer) { // Singers
                     $this->singers[] = $user->data->user_email;
                 }
 
@@ -59,7 +64,7 @@ class CuEmailTool
                 if (!$unsubscribed) {
                     $this->members[] = $user->data->user_email;
 
-                    if ($group == 'Member')
+                    if ($group == 'Member' || $non_singer)
                         $this->only_members[] = $user->data->user_email;
                 }
             }
@@ -215,9 +220,8 @@ class CuEmailTool
                             alert("WARNING: You are expanding the \'Send\' list to include non-Singers while the email contains articles intended only for Singers.\n\nThose articles must be removed first.");
                             $("#radio-btn-singer").prop("checked", true);
                         }
-                    } else {
-                        cu_js.set_count();
-                    }
+                    } 
+                    cu_js.set_count();
                 });
                 $("input[name=\'only-member-inc\']").change(function() {
                     cu_js.set_count();

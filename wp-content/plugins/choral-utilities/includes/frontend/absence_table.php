@@ -106,8 +106,16 @@ class CuAbsenceTable
         // Gather data
         $singers = array();
         $members = get_users();
+
+        // BIG UGLY HORRIBLE HACK WARNING!  get_users() will not return the user information for an
+        // Admin - if the current user is not at the Admin level.  But all we want is the
+        // set of Ids, and we know the only Admin is ID 1, so hard coded - add it in.
+        $mids = array();
+        $mids[] = 1;  // Hardcoded ID of Jon Curtis
         foreach ($members as $member) {
-            $id = $member->data->ID;
+            $mids[]= $member->data->ID;
+        }
+        foreach ($mids as $id) {
             $group = get_user_field('s2member_access_label', $id);
             if (in_array($group, array('Inactive', 'Member')))
                 continue; // Only showing Singers
@@ -115,6 +123,12 @@ class CuAbsenceTable
             $vp = trim(get_user_field('voice', $id));
             if (empty($vp))
                 continue;  // Weed out non-singers
+
+            // Flag for Non-Singer in Administrative Notes.  This enables marking of
+            // Web Assist or Board members who are not participating in the current season.
+            $notes = get_user_field('s2member_notes', $id);
+            if (strpos($notes, "Non-Singer") !== false)
+                continue;
 
             $first = get_user_field('first_name', $id);
             $last = get_user_field('last_name', $id);

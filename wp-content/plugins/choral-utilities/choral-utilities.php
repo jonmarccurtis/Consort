@@ -5,7 +5,7 @@
  * Time: 9:31 AM
  *
  * Plugin Name: Choral Utilities
- * Version: 2.1.1
+ * Version: 2.2.1
  * Description: Adds Utilities for Choral Groups, including: Membership Roster and Absence Reporting
  * Author: Jon Curtis, Galinas Creek Productions
  */
@@ -29,7 +29,7 @@ class ChoralUtilities {
         add_shortcode('cu_positions_list', array($this, 'positions_list'));
         add_shortcode('cu_member_history', array($this, 'member_history'));
         add_shortcode('cu_singer_roster', array($this, 'singer_roster'));
-        add_shortcode('cu_pay_tuition', array($this, 'pay_tuition'));
+        add_shortcode('cu_pay_registration', array($this, 'pay_registration'));
         add_shortcode('cu_absence_table', array($this, 'absence_table'));
 
         // Seasonal Shortcodes
@@ -123,9 +123,9 @@ class ChoralUtilities {
     /**
      * Member Pay Tuition page
      */
-    public function pay_tuition() {
-        require_once(plugin_dir_path(__FILE__).'/includes/frontend/pay_tuition.php');
-        $pay = new CuPayTuition();
+    public function pay_registration() {
+        require_once(plugin_dir_path(__FILE__).'/includes/frontend/pay_registration.php');
+        $pay = new CuPayRegistration();
         return $pay->html();
     }
 

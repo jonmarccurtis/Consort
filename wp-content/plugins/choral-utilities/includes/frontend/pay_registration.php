@@ -9,9 +9,12 @@ if (!defined('WPINC')) {
     die;   // don't allow calling directly
 }
 
+
+// TODO: This is NOT being using in Opus 27.  Instead, the PayPal code is directly used in an HTML Block
+
 // Note: this needed to be done with a shortcode because it requires
 // javascript.
-class CuPayTuition
+class CuPayRegistration
 {
     public function __construct()
     {

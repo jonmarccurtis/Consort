@@ -99,6 +99,8 @@ class CuMemberList
         $this->table->set_option('hide columns', true);
         $this->table->set_option('download', 'Consort_Master_List');
 
+        $this->table->set_option('directions-left', '<i>If emailing Singers, use the Presets above to filter, not the Group dropdown.</i>');
+
         // Initial sort order on page load
         $this->table->set_init_sort(array('last_name', 'first_name'));
 
@@ -110,10 +112,10 @@ class CuMemberList
             array(),
             array('voice', 'last_name', 'first_name'));
         $this->table->add_filter_preset('Singers by Name',
-            array('group' => 'Singer'),
+            array('group' => 'Singer', 'notes' => '!Non-Singer'),
             array('last_name', 'first_name'));
         $this->table->add_filter_preset('Singers by Voice part',
-            array('group' => 'Singer'),
+            array('group' => 'Singer', 'notes' => '!Non-Singer'),
             array('voice', 'last_name', 'first_name'));
         $this->table->add_filter_preset('Positions',
             array('position' => '*.'),

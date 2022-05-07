@@ -125,6 +125,12 @@ class CuSingerRoster
             if (in_array($group, array('Inactive', 'Member')))
                 continue; // Only showing Singers
 
+            // Flag for Non-Singer in Administrative Notes.  This enables marking of
+            // Web Assist or Board members who are not participating in the current season.
+            $notes = get_user_field('s2member_notes', $id);
+            if (strpos($notes, "Non-Singer") !== false)
+                continue;
+
             $positions = get_user_field('position', $id);
             if (is_array($positions)) {
                 $new = array();
