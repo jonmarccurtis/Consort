@@ -85,9 +85,11 @@ class ConsortCustomizations
      */
     public function load_modifications() {
         // Remove Caldera Forms Button from front-end text editor
+        // TODO: protect against the Caldera Forms plugin not active - blocks Admin loading
         remove_action( 'media_buttons', array(Caldera_Forms_Admin::get_instance(), 'shortcode_insert_button' ), 11 );
 
         // Remove Photo Gallery Button from front-end text editor
+        // TODO: protect against the Photo Gallery plugin not active - blocks Admin loading
         remove_action( 'media_buttons', array(BWG::instance(), 'media_button' ) );
 
         // Remove "Phone (Events Manager)" setting from Admin Profile pages
@@ -258,6 +260,12 @@ class ConsortCustomizations
             array(
                 'grant' => isset($fields['position']) && in_array('Membership', $fields['position']),
                 'name' => 'cc_access_registration_list'
+            ),
+            // Note Takers && Directors can edit rehearsal notes
+            array(
+                'grant' => isset($fields['position']) && (in_array('Note Taker', $fields['position'])
+                                                          || in_array('Artistic Director', $fields['position'])),
+                'name' => 'rn_can_edit_rnotes'
             )
         );
 
