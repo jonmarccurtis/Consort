@@ -13,6 +13,7 @@ class CrnTable
     private $sorters = array();
     private $presort = '';
     private $presets = array();
+    private $sort_button = null;
     private $buttons = array();
     private $rows = array();
     private $table_class = '';
@@ -133,6 +134,19 @@ class CrnTable
         $this->presets[$name] = $this->make_preset($filters, $sort);
     }
 
+    /** Add a sort button (optional)
+     * Not designed to be used with a preset dropdown.
+     * One main difference is that it only affects sorting and does
+     * not alter any filters, as the preset dropdown does.  It is
+     * an action-only control with no callbacks or reactors.
+     */
+    public function add_sort_button($label, $title, $sort)
+    {
+        $this->sort_button = array('label' => $label,
+            'title' => $title,
+            'sort' => $this->make_sort_list($sort));
+    }
+
     private function make_preset($filters = array(), $sort = array())
     {
         $flist = array();
@@ -184,6 +198,12 @@ class CrnTable
             $html .= '<span class="crn_title"> ' . $this->options['title'] . '</span> &nbsp; ';
         }
 
+        // Add Sort Button
+        if ($this->sort_button) {
+            $html .= '<div class="buttonlist"><ul><li><a href="#" onclick="crn_table.sort()" title="'
+                . $this->sort_button['title'] . '"><span>' . $this->sort_button['label'] . '</span></a></li></ul></div>';
+        }
+
         // Add Presets Dropdown
         if (!empty($this->presets)) {
             $html .= '
@@ -196,6 +216,7 @@ class CrnTable
             $html .= '
                 </select> <small><i> Use shift-click to sort multiple columns</i></small>';
         }
+
         if (!empty($this->options['directions-left'])) {
             $html .= '<div class="directions">' .
                 $this->options['directions-left'] . '</div>';
@@ -547,6 +568,15 @@ class CrnTable
                 }, 1000);
             }
             crn_table.download = download;';
+        }
+
+        if ($this->sort_button) {
+            $js .= '
+            function sort() {
+                var $table = $("#crn_table");
+                $table.trigger("sorton", [[' . $this->sort_button['sort'] . ']]);
+            }
+            crn_table.sort = sort;';
         }
 
          // Finish outer class

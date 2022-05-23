@@ -5,9 +5,12 @@
  * Time: 9:31 AM
  *
  * Plugin Name: Choral Rehearsal Notes
- * Version: 1.0.0
+ * Version: 1.1.0
  * Description: Supports Posting Rehearsal Notes, changes to music provided by Directors, for Singers
  * Author: Jon Curtis, Gallinas Creek Productions
+ *
+ * Updates
+ *   1.1.0 - Adds Sort Button to table
  */
 
 if (!defined('WPINC')) {

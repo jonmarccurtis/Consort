@@ -72,7 +72,9 @@ class CrnRehearsalNotes
         $this->table->set_option('download', 'Consort_Rehearsal_Notes');
 
         // Initial sort order on page load
-        $this->table->set_init_sort(array('Song', 'msr'));
+        $sort_order = array('Song', 'msr');
+        $this->table->set_init_sort($sort_order);
+        $this->table->add_sort_button('DEFAULT SORT', 'Reset the default sort order', $sort_order);
 
         // These are referenced in the 'custom-filters' above.  This
         // is Javascript inside a function with the filter() parameters.
