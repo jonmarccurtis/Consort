@@ -32,11 +32,14 @@ function ccx_js($) {
      * body must be a single line, with no special characters or HTML
      *
      * <span class="cc-send-adr" data-srv="srv" title="Create email" data-sub="" data-adr="adr" data-ext="ext" data-body="">Name</span>
+     * Optional: add data-cc to include a cc to consort
      */
     function do_send_adr(e) {
+        var $cc = (typeof $(this).data("cc") === 'undefined') ? "" :
+            "&cc=con" + "sortcho" + "rale@" + "gmai" + "l.com";
         window.location="mai" + "lto:" + $(this).data("adr") + "@"
             + $(this).data("srv") + "." + $(this).data("ext") + "?subject=" + $(this).data("sub")
-            + "&body=" + $(this).data("body");
+            + $cc + "&body=" + $(this).data("body");
         e.preventDefault();
         e.stopPropagation();
         return false;
