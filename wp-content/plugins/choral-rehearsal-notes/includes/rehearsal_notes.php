@@ -74,22 +74,6 @@ class CrnRehearsalNotes
         // Initial sort order on page load
         $this->table->set_init_sort(array('Song', 'msr'));
 
-        $instr = <<<EOT
-[accordion][accordion_item title='Filters and Sorting Help']
-<b>Filters</b> are entered in the second row, below the column headers<br>
-To remove older notes: enter the last date (m-d) you copied notes, in the Date column.<br>
-To view only your part's notes, enter your section letter(s) in the 'Section' column.<br>
-(Notes for middle voices are already included with both their upper and lower sections.)<br>
-<span style='color:red'><i>&nbsp;&nbsp;Be sure to press </i>'return'<i> after changing a filter.</i></span><br><br>
-<b>Sorting</b> is done by clicking on the headers to sort by that column.<br>
-Use shift-click to sort on more than one column at the same time.<br>
-Additional clicks change the ascending/descending direction.<br>
-The default sorting is: 'Song' ascending (up arrow), then shift-click 'msr' ascending.<br><br>
-<b>DOWNLOAD</b> will only include visible rows, as they have been filtered and sorted.
-[/accordion_item][/accordion]
-EOT;
-        $this->table->set_option('directions-left', $instr);
-
         // These are referenced in the 'custom-filters' above.  This
         // is Javascript inside a function with the filter() parameters.
         // e = cell text being tested, f = filter text
