@@ -27,14 +27,30 @@ class CuConcertTickets
 {
     private $price, $handling;
 
-    public function __construct()
+    public function __construct($atts)
     {
-        $this->price = 25;
-        $this->handling = 1;
+        $this->error = '';
+        if (isset($atts['price']))
+            $this->price = $atts['price'];
+        else
+            $this->error = 'price (example 30)<br>';
+
+        if (isset($atts['handling']))
+            $this->handling = $atts['handling'];
+        else
+            $this->error .= 'handling (example 1.25)<br>';
+
+        if (isset($atts['title']))
+            $this->title = $atts['title'];
+        else
+            $this->error .= 'title (example 2022 Concert Tickets)<br>';
     }
 
     public function html()
     {
+        if ($this->error != '')
+            return 'ERROR in shortcode usage.  Missing attribute(s):<br>' . $this->error;
+
         $html = $this->getForm();
         $html .= $this->getJS();
         return $html;
@@ -42,13 +58,13 @@ class CuConcertTickets
 
     private function getForm()
     {
-    return '<div style="margin:0 20px; line-height:1.3">To buy online, fill in the form and click "Pay Now."<br>
+    return '<div style="margin:0 20px; line-height:1.3"><b>' . $this->title . '</b><br><br>To buy online, fill in the form and click "Pay Now."<br>
                     <em>PayPal will provide a receipt, and your tickets<br> will be held in "Will Call" at the door.</em><br>
                 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
                     <input type="hidden" name="cmd" value="_xclick">
                     <input type="hidden" name="business" value="R83LAKP9U8PDU">
                     <input type="hidden" name="lc" value="US">
-                    <input type="hidden" name="item_name" value="2019 Concert Tickets">
+                    <input type="hidden" name="item_name" value="' . $this->title . '">
                     <input type="hidden" id="payment-total" name="amount" value="1.00">
                     <input type="hidden" name="button_subtype" value="services">
                     <input type="hidden" name="no_note" value="0">
@@ -63,12 +79,12 @@ class CuConcertTickets
                             <td><span id="tickets-total"></span></td>
                         </tr>
                         <tr>
-                            <td colspan="2">Online handling fee ($1/ticket): </td>
+                            <td colspan="2">Online handling fee ($' . $this->handling . '/ticket): </td>
                             <td><span id="handling-fee"></span></td>
                         </tr>
                         <tr>
-                            <td colspan="2">Make an additional donation (optional): </td>
-                            <td>$<input id="add-donation" type="text" maxlength="7" style="width:75px" /></td>
+                            <td colspan="2"><input type="hidden" name="on1" value="Donation $">Make an additional donation (optional): </td>
+                            <td>$<input id="add-donation" type="text" name="os1" maxlength="7" style="width:75px" /></td>
                         </tr>
                         <tr>
                             <td colspan="2">Total Payment: </td>
@@ -112,7 +128,7 @@ class CuConcertTickets
                 var donate = $("#add-donation").val();
                 if (donate == "")
                     donate = "0";
-                donate = parseFloat(donate); 
+                donate = Number(donate); 
                 if (isNaN(donate) || donate < 0) {
                     alert("Please enter a valid dollar amount for a donation.");
                     $("#add-donation").val("");

@@ -5,9 +5,11 @@
  * Time: 9:31 AM
  *
  * Plugin Name: Choral Utilities
- * Version: 2.2.1
+ * Version: 2.2.2
  * Description: Adds Utilities for Choral Groups, including: Membership Roster and Absence Reporting
  * Author: Jon Curtis, Galinas Creek Productions
+ *
+ * Version 2.2.2 - adds parameters to cu_concert_tickets shortcode, so changes each year do not require coding.
  */
 
 if (!defined('WPINC')) {
@@ -143,9 +145,9 @@ class ChoralUtilities {
     /**
      * Concert Tickets page
      */
-    public function concert_tickets() {
+    public function concert_tickets($atts) {
         require_once(plugin_dir_path(__FILE__).'/includes/frontend/concert_tickets.php');
-        $pay = new CuConcertTickets();
+        $pay = new CuConcertTickets($atts);
         return $pay->html();
     }
 
