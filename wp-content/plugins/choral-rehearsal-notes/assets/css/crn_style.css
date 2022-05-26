@@ -40,6 +40,9 @@
 .righttext {
     text-align: right;
 }
+.songtext {
+    font-size: 12px !important;
+}
 
 .noselect {
     -webkit-touch-callout: none;

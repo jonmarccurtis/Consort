@@ -48,7 +48,7 @@ class CrnRehearsalNotes
 
         $this->table->add_column('Song',
             array('title' => 'Click to sort',
-                'width' => '170'));
+                'width' => '200'));
 
         $this->table->add_column('msr',
             array('label' => 'msr',
@@ -131,6 +131,7 @@ class CrnRehearsalNotes
 
                 'class' => array(
                     'date' => 'centertext',
+                    'song' => 'songtext',
                     'msr' => 'centertext',
                     'section' => 'centertext crn_monospaced'));
 
