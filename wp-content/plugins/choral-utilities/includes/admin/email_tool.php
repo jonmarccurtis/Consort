@@ -485,7 +485,7 @@ class CuEmailTool
               "excerpt": "#_EVENTEXCERPT" 
             },';
         $event_json = do_shortcode('
-            [events_list category="' . $cat .'" scope="' . $today . $date .'" 
+            [events_list limit="20" category="' . $cat .'" scope="' . $today . $date .'" 
             format_header="" format_footer=""] ' . $event_pars . ' [/events_list]');
 
         // Return nothing - if there aren't any events
