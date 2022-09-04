@@ -5,11 +5,12 @@
  * Time: 9:31 AM
  *
  * Plugin Name: Choral Utilities
- * Version: 2.2.2
+ * Version: 2.2.3
  * Description: Adds Utilities for Choral Groups, including: Membership Roster and Absence Reporting
  * Author: Jon Curtis, Galinas Creek Productions
  *
  * Version 2.2.2 - adds parameters to cu_concert_tickets shortcode, so changes each year do not require coding.
+ * Version 2.2.3 - updates member history with 2022
  */
 
 if (!defined('WPINC')) {
