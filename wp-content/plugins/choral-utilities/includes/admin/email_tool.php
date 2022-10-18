@@ -651,7 +651,7 @@ class CuEmailTool
         <hr>
         <div style="text-align:center;font-size:10px;">
             Consort Chorale Summer Concert<br>
-            Sunday, August 14, 2022<br>
+            Sunday, August 13, 2023 with David Dickau<br>
             First Presbyterian Church, 72 Kensington Rd, San Anselmo, California<br>
             <a href="http://www.consortchorale.org">www.consortchorale.org</a><br>
             <br>

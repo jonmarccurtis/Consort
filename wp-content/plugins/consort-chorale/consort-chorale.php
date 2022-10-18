@@ -5,9 +5,11 @@
  * Time: 9:31 AM
  *
  * Plugin Name: Consort's Site-Plugin
- * Version: 2.0.0
+ * Version: 2.0.1
  * Description: Provides a location for PHP changes that will not be overwritten when other plugins or themes are updated.  It also lists changes that must be re-made on update in the following: I-Excel Theme.
  * Author: Jon Curtis
+ *
+ * Version 2.0.1 - removed dependency on Caldera Forms (10/22)
  */
 
 if (!defined('WPINC')) {
@@ -84,10 +86,6 @@ class ConsortCustomizations
      * actions and filters can be removed.
      */
     public function load_modifications() {
-        // Remove Caldera Forms Button from front-end text editor
-        // TODO: protect against the Caldera Forms plugin not active - blocks Admin loading
-        remove_action( 'media_buttons', array(Caldera_Forms_Admin::get_instance(), 'shortcode_insert_button' ), 11 );
-
         // Remove Photo Gallery Button from front-end text editor
         // TODO: protect against the Photo Gallery plugin not active - blocks Admin loading
         remove_action( 'media_buttons', array(BWG::instance(), 'media_button' ) );

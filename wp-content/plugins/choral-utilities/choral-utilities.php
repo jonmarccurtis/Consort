@@ -5,12 +5,13 @@
  * Time: 9:31 AM
  *
  * Plugin Name: Choral Utilities
- * Version: 2.2.3
+ * Version: 2.3.0
  * Description: Adds Utilities for Choral Groups, including: Membership Roster and Absence Reporting
  * Author: Jon Curtis, Galinas Creek Productions
  *
  * Version 2.2.2 - adds parameters to cu_concert_tickets shortcode, so changes each year do not require coding.
  * Version 2.2.3 - updates member history with 2022
+ * Version 2.3.0 - removed dependencies on Caldera Forms (10/22): Snack List, Solo Auditions, Workshop Lunches
  */
 
 if (!defined('WPINC')) {
@@ -38,12 +39,6 @@ class ChoralUtilities {
         // Seasonal Shortcodes
         add_shortcode('cu_concert_tickets', array($this, 'concert_tickets'));
         add_shortcode('cu_lunch_tickets', array($this, 'lunch_tickets'));
-        add_shortcode('cu_ws_lunch_list', array($this, 'ws_lunch_list'));
-        add_shortcode('cu_solo_auditions', array($this, 'solo_auditions'));
-
-        // Support for Snack Signup page
-        add_filter('caldera_forms_render_get_field', array($this, 'snack_signup_dropdown'), 10, 2);
-        add_shortcode('cu_snack_list', array($this, 'snack_list'));
 
         // Other Shortcodes
         add_shortcode('cu_filter', array($this, 'cu_filter'));
@@ -160,53 +155,6 @@ class ChoralUtilities {
         $pay = new CuLunchTickets();
         return $pay->html();
     }
-
-    /**
-     * Workshop Lunch List
-     */
-    public function ws_lunch_list($atts) {
-        require_once(plugin_dir_path(__FILE__).'/includes/frontend/ws_lunch_list.php');
-        $wll = new CuWsLunchList($atts);
-        return $wll->html();
-    }
-
-    /**
-     * Solo Auditions List
-     */
-    public function solo_auditions($atts) {
-        require_once(plugin_dir_path(__FILE__).'/includes/frontend/solo_auditions.php');
-        $sa = new CuSoloAuditions($atts);
-        return $sa->html();
-    }
-
-    /**** Support for Snack Signup page ****/
-
-    /**
-     * Fill Snack Signup Dropdown (filter callback)
-     * Caldera form requirements:
-     *    Dropdown slug = snack_signup_dropdown
-     *    Name slug = hid_name
-     *    static variable 'monday' = date of monday rehearsal
-     */
-    public function snack_signup_dropdown($field, $form) {
-        if ('snack_signup_dropdown' == $field['slug']) {
-            require_once(plugin_dir_path(__FILE__).'/includes/frontend/snack_list.php');
-            $csl = new CuSnackList();
-            $field = $csl->dropdown($field, $form);
-        }
-        return $field;
-    }
-
-    /**
-     * Snack List
-     * [cu_snack_list id="caldera form id"]
-     */
-    public function snack_list($atts) {
-        require_once(plugin_dir_path(__FILE__).'/includes/frontend/snack_list.php');
-        $csl = new CuSnackList();
-        return $csl->html($atts);
-    }
-
 
     /********* OTHER SHORTCODES **********/
 
