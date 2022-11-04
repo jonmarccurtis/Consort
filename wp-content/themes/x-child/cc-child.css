@@ -345,10 +345,3 @@ span.cc-send-adr:hover {
     display: flex;
     justify-content: space-between;
 }
-
-
-/******** Bypass STUPID WP Formatting *********/
-/* TODO: This has been put in the Theme CSS, so technically is not needed here */
-.no-bottom-margin {
-    margin-bottom: 0;
-}

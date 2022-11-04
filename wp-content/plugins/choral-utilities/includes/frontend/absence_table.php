@@ -107,11 +107,7 @@ class CuAbsenceTable
         $singers = array();
         $members = get_users();
 
-        // BIG UGLY HORRIBLE HACK WARNING!  get_users() will not return the user information for an
-        // Admin - if the current user is not at the Admin level.  But all we want is the
-        // set of Ids, and we know the only Admin is ID 1, so hard coded - add it in.
         $mids = array();
-        $mids[] = 1;  // Hardcoded ID of Jon Curtis
         foreach ($members as $member) {
             $mids[]= $member->data->ID;
         }

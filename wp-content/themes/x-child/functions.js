@@ -32,7 +32,7 @@ function ccx_js($) {
      * body must be a single line, with no special characters or HTML
      *
      * <span class="cc-send-adr" data-srv="srv" title="Create email" data-sub="" data-adr="adr" data-ext="ext" data-body="">Name</span>
-     * Optional: add data-cc to include a cc to consort
+     * Optional: add data-cc="yes" to include a cc to consort
      */
     function do_send_adr(e) {
         var $cc = (typeof $(this).data("cc") === 'undefined') ? "" :
