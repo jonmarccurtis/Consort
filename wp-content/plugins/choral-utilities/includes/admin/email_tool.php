@@ -690,10 +690,12 @@ class CuEmailTool
             <p>www.consortchorale.org</p>
             <p><b>Board of Directors</b></p>
             <p>Allan Robert Petker<br><i>Artistic Director /<br>Founder</i></p>
-            <p>Ruthann Lovetang<br><i>President</i></p>
+            <p>David Raub<br><i>President</i></p>
+            <p>Noralee McKersie<br><i>Vice President</i></p>
             <p>Lucinda Ray<br><i>Secretary</i></p>
-            <p>David Raub<br><i>Treasurer</i></p>
-            <p>Jon Curtis<br>Betsy Levine-Proctor<br>Lily O’Brien</p>
+            <p>Judith Ward<br><i>Treasurer</i></p>
+            <p>Jon Curtis<br>Amanda Kreklau<br>Betsy Levine-Proctor</p>
+            <p>Ruthann Lovetang<br><i>Past President</i></p>
             <p>Bob Friestad<br><i>Emeritus /<br>Co-Founder</i></p>
             </td>
         <td style="padding-left: 10px;" valign="top">';
