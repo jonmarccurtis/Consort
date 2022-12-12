@@ -636,6 +636,11 @@ class CuEmailTool
             // Uncomment to disable
             //wp_send_json_success('WOULD HAVE SENT TO: ' . implode(', ', $to) . ', BCC: ' . implode(', ', $headers));
 
+        // Some email clients completely honor <pre> and will not add word wrapping.
+        // The following replaces <pre> with <p> and CSS to keep the font.
+        $body = str_replace('<pre>','<p style="font-family:\‘Courier New\’,Courier,monospace">', $body);
+        $body = str_replace('</pre>','</p>', $body);
+
         if ($letterhead)
             $body = $this->add_letterhead($body);
 
