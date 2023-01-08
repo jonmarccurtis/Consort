@@ -14,6 +14,11 @@ if (!defined('WPINC')) {
  *
  * Supports both a page where users can subscript to various CC Calendars
  * and a callback that filters Event Manager's /events.ics URL
+ *
+ * This used to depend on s2member user levels.  It also used the current
+ * user ID for nonces, but was also able to function with no user ID when
+ * no one was logged in.  That is almost always the case now, so the code
+ * that uses the user_id is left intact.
  */
 class CuCalendarSubscription
 {
@@ -21,79 +26,49 @@ class CuCalendarSubscription
      * @var array - Calendar Event Categories
      *
      * Key = bitfield values
-     * show = who can select the category for their request token
      * filter = what categories are sent with the request
      *
-     * The reason for this difference is that Members can choose to
-     * include Singer events, but will not see them unless they are
-     * active Singers in the Current Season.  (That way, Members will
-     * not need to get a new token once they register.)
      */
     static private $options = array(
         array(
             'type' => 'section',
-            'label' => 'Select types of events to include:',
-            'show' => null
+            'label' => 'Select types of events to include:'
         ),
         array(
             'type' => 'category',
             'slug' => 'consort',
             'label' => 'Consort Public Events (<em>Fundraisers, Annual Concert</em>)',
             'cat_fld' => 0b00000001,
-            'cat_id' => '10',
-            'show' => null,  // null = anyone can access
-            'filter' => null
+            'cat_id' => '10'
         ),
         array(
             'type' => 'category',
             'slug' => 'other',
             'label' => 'Other Group\'s Events (<em>Concerts, Workshops</em>)',
             'cat_fld' => 0b00000010,
-            'cat_id' => '7',
-            'show' => null,
-            'filter' => null
+            'cat_id' => '7'
         ),
         array(
             'type' => 'category',
             'slug' => 'singer',
             'label' => 'Singer/Season Events (<em>Rehearsals</em>)',
             'cat_fld' => 0b00000100,
-            'cat_id' => '8',
-            'show' => 'access_s2member_level1',
-            'filter' => 'access_s2member_level2'
-        ),
-        array(
-            'type' => 'category',
-            'slug' => 'board',
-            'label' => 'Board only Events (<em>Meetings</em>)',
-            'cat_fld' => 0b00001000,
-            'cat_id' => '12',
-            'show' => 'access_s2member_level4',
-            'filter' => 'access_s2member_level4'
+            'cat_id' => '8'
         ),
         array(
             'type' => 'section',
-            'label' => 'Additional settings:',
-            'show' => null,
+            'label' => 'Additional setting:'
         ),
         array(
             'type' => 'setting',
             'slug' => 'future_only',
-            'label' => 'Show only future events (<em>remove from your calendar when passed</em>)',
-            'show' => null,
-        ),
-        array(
-            'type' => 'setting',
-            'slug' => 'registered_only',
-            'label' => 'Only show Singer events if registered (<em>hide rehearsal schedule unless registered</em>)',
-            'show' => 'access_s2member_level1',
+            'label' => 'Show only future events (<em>remove from your calendar when passed</em>)'
         ),
     );
 
-    // Note - only room for one more setting, to stay within 2 hex bytes
+    // Note - only room for two more settings and 1 more cat (used to have 'board'), to stay within 2 hex bytes
     static private $settings = array(
         'future_only' => 0b00010000,
-        'registered_only' => 0b00100000,
         'category_mask' => 0b00001111,
         'default' => 0b10000000  // keeps opts as a 2 byte field
     );
@@ -107,14 +82,12 @@ class CuCalendarSubscription
         $html = '';
         $opts = self::$settings['default'];
         foreach (self::$options as $key => $option) {
-            if ($option['show'] === null || current_user_can($option['show'])) {
-                if ($option['type'] == 'section') {
+            if ($option['type'] == 'section') {
                     $html .= '<br><div><b>' . $option['label'] . '</b></div>';
                 } else {
                     $bit = ($option['type'] == 'category') ? $option['cat_fld'] : self::$settings[$option['slug']];
-                    $checked = ($option['slug'] == 'registered_only') ? '' : ' checked="checked"';
-                    if ($checked != '')
-                        $opts += $bit;
+                    $checked = ' checked="checked"'; // Used to have one option default to not checked
+                    $opts += $bit;
 
                     $elem_id = 'cal_' . $bit;
                     $html .= '<label for="' . $elem_id . '">';
@@ -122,7 +95,6 @@ class CuCalendarSubscription
                     $html .= $option['label'] . '</label>';
                 }
             }
-        }
 
         $html .= '<br><div><b>Click to copy this URL, then paste it into your Calendar tool:</b></div>';
         $url = $this->get_url(get_current_user_id(), $opts);
@@ -158,7 +130,7 @@ class CuCalendarSubscription
                     if ((opts & ' . self::$settings['category_mask'] . ') == 0) {
                         $("#opt-url").val("Please select at least one type of event.");
                     } else {
-                        $("#opt-url").val("");
+                        $("#opt-url").val(" ... creating new URL ...");
                         var data = {
                             action: "cu_get_ical_url",
                             _ajax_nonce: "' . wp_create_nonce('cu_get_ical_url-' . get_current_user_id()) . '",
@@ -208,6 +180,11 @@ class CuCalendarSubscription
         // the full calendar.  It is also the default if we fail here ...
         $args['category'] = '1';
 
+        // There used to be a Board category, and we could get older tokens that include
+        // it - but that's ok, as that category will now always return no events.
+        // That is also true of tokens that have the "registered singer" option.
+        // Older tokens with that option are harmless.
+
         // Note: EM processes this during its init(), so it never gets to the
         // WP public query_vars, so we have to do our own processing.
         if (!isset($_GET['opts']))
@@ -239,10 +216,7 @@ class CuCalendarSubscription
             if (!$future_only)  // This is Event Manager's default
                 $args['scope'] = 'all';
 
-            // Can Member's see Singer Events, or must they be registered as Singers first?
-            $registered_only = ($opts & self::$settings['registered_only']) == self::$settings['registered_only'];
-
-            // Now make sure the user has access to the requested calendars
+            // Now make sure the user has access to the requested calendars (no longer necessary)
             $cats = array();
             foreach (self::$options as $option) {
                 if ($option['type'] != 'category')
@@ -251,34 +225,10 @@ class CuCalendarSubscription
                 if (($opts & $option['cat_fld']) == $option['cat_fld']) {
                     // Has requested this event category
 
-                    if ($option['filter'] == null) {
-                        // everyone can have this category
-                        $cats[] = $option['cat_id'];
-
-                    } else if ($user) { // The rest are only for members
-
-                        $is_singer_cat = ($option['slug'] == 'singer');
-
-                        // This is disabled.  It is a sort-of violation of the Current Season rules,
-                        // but in this case - we want to let members see the rehearsal schedule as
-                        // soon as it is ready, even if that is before the rest of the current
-                        // season is ready to turn on.  They can still turn this off by setting
-                        // 'registered_only' to true.
-                        //
-                        // Don't include Singer's events outside current season
-                        //if ($is_singer_cat && !CurrentSeason::is_current_season())
-                        //    continue;
-
-                        // Is the user's access level currently high enough to see this category,
-                        // or this is the Singer Events Category and the user indicates to always show
-                        // them. In that case, we don't need to recheck the user capabilities, as
-                        // the only level that doesn't include Singer events is the lowest, Member.
-                        // If they are no longer a Member, then their user_id would be invalid and
-                        // they would have been filtered out above.
-                        if ($user->has_cap($option['filter']) || ($is_singer_cat && !$registered_only)) {
-                            $cats[] = $option['cat_id'];
-                        }
-                    }
+                    // There used to be a lot of logic here, to filter based on the s2member user
+                    // level or whether they are registered for the current season.
+                    // This is no longer needed, as anyone can request any cat.
+                    $cats[] = $option['cat_id'];
                 }
             }
             if (count($cats) == 0)
