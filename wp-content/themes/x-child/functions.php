@@ -43,6 +43,14 @@ function swap_styles_for_printable() {
     }
 }
 
+// Set password protect cookie to last 1 year
+// =============================================================================
+
+add_filter( 'post_password_expires', 'xchild_set_cookie_expire' );
+function xchild_set_cookie_expire( $time ) {
+    return time() + (86400 * 365);  // 1 year
+}
+
 // Override X Entry Navigation - to stay within the category
 // =============================================================================
 
@@ -109,6 +117,12 @@ function x_entry_navigation() {
 
 // Additional Functions
 // =============================================================================
+
+// Remove "Protected:" on password protected page titles
+add_filter('protected_title_format', 'remove_protected_title_prefix');
+function remove_protected_title_prefix() {
+    return '%s';
+}
 
 // Hide dashboard Portfolio menu item
 add_action('admin_head', 'hide_portfolio');

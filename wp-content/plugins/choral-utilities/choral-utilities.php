@@ -5,7 +5,7 @@
  * Time: 9:31 AM
  *
  * Plugin Name: Choral Utilities
- * Version: 2.3.2
+ * Version: 3.0.0
  * Description: Adds Utilities for Choral Groups, including: Membership Roster and Absence Reporting
  * Author: Jon Curtis, Galinas Creek Productions
  *
@@ -14,6 +14,7 @@
  * Version 2.3.0 - removed dependencies on Caldera Forms (10/22): Snack List, Solo Auditions, Workshop Lunches
  * Version 2.3.1 - updated BoD list on the letterhead in email tool
  * Version 2.3.2 - Fix defect in email tool, to not output <pre>, which doesn't render well in all email clients
+ * Version 3.0.0 - REDUCTION, first pass, Remove Email Tool's ability to send emails
  */
 
 if (!defined('WPINC')) {
@@ -335,7 +336,7 @@ $cu_choral_utilities = new ChoralUtilities();
 class CurrentSeason
 {
     /**
-     * Used by Events manager in events-manager/templates/forms/event/categories-public.php
+     * Used by Events manager in events-manager/templates/forms/event/categories-public-NO USE.php
      */
     public static function is_current_season() {
         require_once(plugin_dir_path(__FILE__).'/includes/common/cu_options.php');

@@ -566,6 +566,11 @@ class CuTestFamilyField extends CuField
         parent::__construct($section, $slug, $label);
 
         $userdata = get_user_by('login', $username);
+
+        // REDUCTION - if Test Family doesn't exist
+        if (!$userdata)
+            return;
+
         $this->id = $userdata->ID;
 
         // This call will fail if s2member is not present

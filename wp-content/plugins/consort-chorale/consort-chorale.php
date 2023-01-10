@@ -5,11 +5,12 @@
  * Time: 9:31 AM
  *
  * Plugin Name: Consort's Site-Plugin
- * Version: 2.0.1
+ * Version: 3.0.0
  * Description: Provides a location for PHP changes that will not be overwritten when other plugins or themes are updated.  It also lists changes that must be re-made on update in the following: I-Excel Theme.
  * Author: Jon Curtis
  *
  * Version 2.0.1 - removed dependency on Caldera Forms (10/22)
+ * Version 3.0.0 - REDUCTION, remove Admin bar hide, provide password protect log out, Event Manager format fix
  */
 
 if (!defined('WPINC')) {
@@ -30,10 +31,16 @@ class ConsortCustomizations
         global $DOING_AJAX;
 
         // WP Admin Bar suppression
-        add_action('after_setup_theme', array($this, 'remove_admin_bar'));
+        // CC_REDUCTION don't need this anymore.  Those who are Editors will need
+        // the Admin bar to log off and move back-forth between dashboard and front end.
+        //  add_action('after_setup_theme', array($this, 'remove_admin_bar'));
 
         // Provide login item for the Menu
         add_shortcode('cu_login_url', array($this, 'cu_login_url'));
+
+        // Provide shortcode that will log out of Password Protected pages
+        add_shortcode('cu_pp_logout', array($this, 'cu_pp_logout'));
+        add_action( 'init', array($this, 'cu_do_pp_logout'));
 
         // New Member Registration & Profile fields display: s2Member Plugin
         add_action('ws_plugin__s2member_during_profile_during_fields_during_custom_fields_display',
@@ -42,6 +49,9 @@ class ConsortCustomizations
         // Transfer s2Member field(s) to Capabilities
         add_action('ws_plugin__s2member_after_users_list_update_cols',
             array($this, 'transfer_to_capabilities'), 10, 2);
+
+        // Fix Event Manager lists in posts formatting
+        add_shortcode('cu_em_fix_lists', array($this, 'cu_em_fix_lists'));
 
         // Change wording on Event Manager iCal links
         add_filter('em_event_output_placeholder', array($this, 'event_output_placeholder'), 10, 3);
@@ -64,6 +74,25 @@ class ConsortCustomizations
             add_action( 'wp_loaded', array($this, 'load_modifications' ));
         }
     }
+
+    /** CU_PP_LOGOUT shortcode
+     *
+     * Provides a logout link for password protected pages.  Example <a href="[cu_pp_logout]">...
+     * This does not affect logged in WP users.
+     * This code is borrowed from: https://johnblackbourn.com/wordpress-plugin-logout-password-protected-posts/
+     */
+    public function cu_pp_logout() {
+        return wp_nonce_url( add_query_arg( array( 'action' => 'cu_do_pp_logout' ), site_url( 'wp-login.php', 'login' ) ), 'cu_do_pp_logout' );
+    }
+    function cu_do_pp_logout() {
+        if ( isset( $_REQUEST['action'] ) and ( 'cu_do_pp_logout' == $_REQUEST['action'] ) ) {
+            check_admin_referer( 'cu_do_pp_logout' );
+            setcookie( 'wp-postpass_' . COOKIEHASH, ' ', time() - 31536000, COOKIEPATH );
+            wp_redirect( wp_get_referer() );
+            die();
+        }
+    }
+
 
     /** CU_LOGIN_URL shortcode
      *
@@ -310,6 +339,16 @@ class ConsortCustomizations
         }
     }
 
+    /** CU_EM_FIX_LISTS shortcode
+     *
+     * Event Manager [event-list ] is inconsistent when used on a Page vs a Post.
+     * It puts <p> into the items making them 2 line.  This fixes that.  Note, it
+     * does not do this if the list is in a page.
+     */
+    public function cu_em_fix_lists($atts, $content) {
+        $fixed = str_replace('<p>', '', $content);
+        return str_replace('</p>', '', $fixed);
+    }
     /**
      * Replace iCal with "Add to Calendar"
      */
