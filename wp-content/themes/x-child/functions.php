@@ -134,36 +134,4 @@ function hide_portfolio() {
   </style>';
 }
 
-// Reset s2member Profile, Custom checkbox fields to display vertically
-// s2member defaults to profile checkboxes in horizontal alignment using &nbsp;&nbsp;.  This changes
-// it to vertical alignment using <br>
-add_action('ws_plugin__s2member_custom_field_gen_checkboxes_sep', 'profile_align_checkboxes', 10, 1);
-function profile_align_checkboxes($args) {
-    return '<br>';
-}
-
-// Change favicon for internal APC website
-add_filter( 'get_site_icon_url','apc_favicon', 10, 3 );
-function apc_favicon ($url, $size, $blog_id) {
-    if (is_page(4431)) {  // Allan Petker Chorale page ID
-        switch ($size) {
-            case 32:
-                $url = site_url('wp-content/uploads/2021/05/cropped-apc-favicon-32x32.png');
-                break;
-            case 180:
-                $url = site_url('wp-content/uploads/2021/05/cropped-apc-favicon-180x180.png');
-                break;
-            case 192:
-                $url = site_url('wp-content/uploads/2021/05/cropped-apc-favicon-192x192.png');
-                break;
-            case 270:
-                $url = site_url('wp-content/uploads/2021/05/cropped-apc-favicon-270x270.png');
-                break;
-            default:
-                $url = site_url('wp-content/uploads/2021/05/cropped-apc-favicon.png');
-                break;
-        }
-    }
-    return $url;
-}
 

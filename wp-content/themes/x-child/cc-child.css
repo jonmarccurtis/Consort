@@ -89,12 +89,6 @@ span.cc-news-category {
     font-size: 16px!important;
 }
 
-/* Front-end profile form by s2Member - reduce width of the inputs */
-form#ws-plugin--s2member-profile table { max-width:400px !important }
-form#ws-plugin--s2member-profile label.ws-plugin--s2member-custom-reg-field-op-l {
-    opacity: 1 !important;
-}
-
 /* Boxes with red border */
 .support-box {
     margin: 10px;
@@ -123,14 +117,6 @@ div.support-box-disabled::after {
     font-family: Georgia, 'Times New Roman', Times, serif;
     transform: rotate(-30deg);
     content: 'Disabled';
-}
-
-/* Refreshment signup page */
-.cu-form-label {
-    font-family: Georgia, 'Times New Roman', Times, serif;
-}
-.cu-form-value {
-    color: #0A246A;
 }
 
 /***** POST ATTACHMENTS - AUDIO/VIDEO MEDIA *****/
