@@ -134,4 +134,18 @@ function hide_portfolio() {
   </style>';
 }
 
+// Replace default WP login icon
+function my_login_logo() { ?>
+    <style type="text/css">
+        #login h1 a, .login h1 a {
+            background-image: url('/wp-content/uploads/2019/12/CCII-logo.png');
+            height:45px;
+            width:320px;
+            background-size: 320px 45px;
+            background-repeat: no-repeat;
+            padding-bottom: 20px;
+        }
+    </style>
+<?php }
+add_action( 'login_enqueue_scripts', 'my_login_logo' );
 

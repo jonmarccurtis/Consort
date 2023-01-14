@@ -199,18 +199,15 @@ class CuCalendarSubscription
         if ($ver == 'A') {
             // Handle Tokens of Version A
 
-            $id = $pars['id'];
+            // Used to make sure that, if the token was created by a user, that user is still active.
+            // This is no longer a valid check, so the $id is no longer used.
+            // $id = $pars['id'];
+
             $opts = $pars['opts'];
 
             if (($opts & self::$settings['category_mask']) == 0)  // No Categories selected == $opt);
                 return $args;
 
-            $user = null;
-            if ($id > 0) { // this is for a member
-                $user = get_user_by('id', $id);
-                if ($user === false)
-                    return $args;  // ID is invalid
-            }
 
             $future_only = ($opts & self::$settings['future_only']) == self::$settings['future_only'];
             if (!$future_only)  // This is Event Manager's default
