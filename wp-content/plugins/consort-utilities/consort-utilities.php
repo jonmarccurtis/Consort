@@ -53,7 +53,7 @@ class ConsortUtilities {
 
         // Fix Event Manager lists in posts formatting
         add_shortcode('cu_em_fix_lists', array($this, 'cu_em_fix_lists'));
-        // Fix formatting of Event excerpts
+        // Fix formatting of Event excerpts - for Email Tool
         add_filter('em_events_output_events', array($this, 'fix_event_excerpt_formatting'));
 
         // Debugging

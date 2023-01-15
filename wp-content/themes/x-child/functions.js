@@ -11,11 +11,11 @@ function ccx_js($) {
             return false;
         });
 
-        /** Email support */
-        $("span.cc-send-adr").on("click", ccx_js.do_send_adr);
-
-        /** Add download button to playlists, but only if logged in **/
-        if ($("body").hasClass("logged-in")) {
+        /** Add download button to playlists, but only if member logged in **/
+        // Old method - detects standard WP login
+        // if ($("body").hasClass("logged-in")) {
+        var dc = document.cookie;
+        if (dc.includes("; wp-postpass")) {
             var $pl = $("#tmpl-wp-playlist-item");
             if ($pl.length !== 0) {
                 var scr = $pl.html();
@@ -23,6 +23,9 @@ function ccx_js($) {
                 $pl.html(scr + '<a href="{{ data.src }}" class="wpse-download" download=""><i class="fa fa-download" title="Download" aria-hidden="true"></i></a>');
             }
         }
+
+        /** Email support */
+        $("span.cc-send-adr").on("click", ccx_js.do_send_adr);
     });
 
     /**

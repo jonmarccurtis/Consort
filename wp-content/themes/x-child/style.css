@@ -5,13 +5,14 @@ Theme URI: http://theme.co/x/
 Author: Themeco
 Author URI: http://theme.co/
 Description: Make all of your modifications to X in this child theme.
-Version: 2.0.1
+Version: 2.0.2
 Template: x
 
 Versions:
     2.0.0 - REDUCTION work - remove "Protected" from page titles, make password cookie last 1 year,
               remove Event Manager filters for current season and user levels (removes EM from plugins).
     2.0.1 - REDUCTION - remove references to s2member
+    2.0.2 - REDUCTION - switch audio files download visibility from standard login to member's login
 
 */
 
