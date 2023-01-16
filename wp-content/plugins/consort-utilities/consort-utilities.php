@@ -61,8 +61,8 @@ class ConsortUtilities {
 
         // Provide shortcode that will log out of Password Protected pages
         add_shortcode('cu_pp_logout', array($this, 'cu_pp_logout'));
-        add_action( 'init', array($this, 'cu_do_pp_logout'));
-
+        add_action( 'wp_logout', array($this, 'cu_redirect_after_logout' ));
+       
         // shortcode conditionals for member logged in
         add_shortcode('cu_if_member_logged_in', array($this, 'cu_if_member_logged_in'));
         add_shortcode('cu_if_member_not_logged_in', array($this, 'cu_if_member_not_logged_in'));
@@ -74,7 +74,6 @@ class ConsortUtilities {
             // Modifications after all plugins have loaded
             add_action( 'wp_loaded', array($this, 'load_modifications' ));
         }
-
     }
 
 
@@ -195,20 +194,28 @@ class ConsortUtilities {
     /** CU_PP_LOGOUT shortcode
      *
      * Provides a logout link for password protected pages.  Example <a href="[cu_pp_logout]">...
-     * This does not affect logged in WP users.
-     * This code is borrowed from: https://johnblackbourn.com/wordpress-plugin-logout-password-protected-posts/
+     * None of the suggested methods for logging out Password Protected pages works!  Attempting
+     * to reset the PP cookie's timeout fails (most likely due to making the call after headers
+     * have been sent, even though the calls from logout?action=.)  The only way that definitely
+     * works is to let WP do the logout.  This has an additional advantage that even Editors
+     * with standard WP logins, are also logged out at the same time.
      */
     public function cu_pp_logout() {
-        return wp_nonce_url( add_query_arg( array( 'action' => 'cu_do_pp_logout' ), site_url( 'wp-login.php', 'login' ) ), 'cu_do_pp_logout' );
+        return wp_logout_url();
     }
-    function cu_do_pp_logout() {
-        if ( isset( $_REQUEST['action'] ) and ( 'cu_do_pp_logout' == $_REQUEST['action'] ) ) {
-            check_admin_referer( 'cu_do_pp_logout' );
-            setcookie( 'wp-postpass_' . COOKIEHASH, ' ', time() - 31536000, COOKIEPATH );
-            wp_redirect( wp_get_referer() );
-            die();
-        }
+   
+    /**
+     * Another ugly bug in WP, is that wp_logout_url($redirect) does not work!  And if you do not
+     * provide a redirect, logout always takes you to the Admin login page.  This callback does
+     * work for redirecting after logout - but it affects ALL logouts, including those from 
+     * standard admin logouts.  So the only neutral work-around is to always redirect both
+     * logouts to the Home page. 
+     */
+    function cu_redirect_after_logout() {
+        wp_safe_redirect( home_url() );
+        exit();
     }
+
 
     /**
      * Shortcode conditional for content only to be shown if member logged in
